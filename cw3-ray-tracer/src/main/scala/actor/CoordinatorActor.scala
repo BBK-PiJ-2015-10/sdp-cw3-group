@@ -17,8 +17,8 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   var accumulator: ActorRef = _
   
-//  var waiting = configuration.dimensions._1 * configuration.dimensions._2
-  var waiting = configuration.workUnits
+  var waiting = configuration.dimensions._1 * configuration.dimensions._2
+  //var waiting = configuration.workUnits
 
 
   def receive = {
@@ -64,9 +64,9 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
       .withRouter(RoundRobinPool(configuration.workers)), name = "workerRouter")
 
-    val noOfPixels = (configuration.dimensions._1 * configuration.dimensions._2) / configuration.workUnits
+    //val noOfPixels = (configuration.dimensions._1 * configuration.dimensions._2) / configuration.workUnits
 
-    for (i <- 0 until configuration.workUnits) workerRouter ! WorkUnit(noOfPixels)
+    for (i <- 0 until configuration.dimensions._1) workerRouter ! WorkUnit(0, i, configuration.dimensions._2 -1, i)
 
     //    println(s"Create ${configuration.workUnits} sub units from ${configuration.dimensions}")
 
