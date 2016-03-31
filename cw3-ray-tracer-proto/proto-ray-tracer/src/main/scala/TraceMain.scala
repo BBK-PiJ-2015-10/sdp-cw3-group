@@ -11,6 +11,8 @@ object TraceMain extends App {
   val t = new Trace
 
   render(scene, outfile, t.Width, t.Height)
+  
+  println("Please work")
 
   def render(scene: Scene, outfile: String, width: Int, height: Int) = {
     

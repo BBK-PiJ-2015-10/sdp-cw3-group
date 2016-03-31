@@ -1,6 +1,6 @@
 package com.mildlyskilled.actor
 
-import akka.actor.{ActorLogging, Actor}
+import akka.actor.{ActorLogging, Actor,ActorRef}
 import com.mildlyskilled._
 import com.mildlyskilled.protocol._
 
@@ -12,7 +12,7 @@ import com.mildlyskilled.protocol._
 //Below method works, need to brainstorm how to make it more efficient and to see how
 //the scheduler can split the work.
 
-  class TracerActor(scene: Scene) extends Actor {
+  class TracerActor(scene: Scene, integrator: ActorRef) extends Actor {
   
   
   def receive = {
@@ -44,7 +44,7 @@ import com.mildlyskilled.protocol._
         if (Vector(colour.r, colour.g, colour.b).norm > 1)
           scene.t.lightCount += 1
          
-        sender ! SetPixel(x,i,colour)
+        integrator ! SetPixel(x,i,colour)
          
         
       }
