@@ -25,13 +25,16 @@ class AccumulatorActor (configuration: TracerConfiguration) extends Actor {
       
     }
     
-    case SetPixel(x, y, c) => {
+//    case SetPixel(x, y, c) => {
+//    
+//      imageAccumulator.accumulate(x, y, c)     
+//    }
     
-      imageAccumulator.accumulate(x, y, c)
+    case SetPixel(pixels) => {
+    
+      imageAccumulator.accumulate(pixels)
       
     }
-    
-    
     
   }  
   

@@ -17,8 +17,8 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   var accumulator: ActorRef = _
   
-  var waiting = configuration.dimensions._1 * configuration.dimensions._2
-  //var waiting = configuration.workUnits
+  //var waiting = configuration.dimensions._1 * configuration.dimensions._2
+  var waiting = configuration.workUnits
 
 
   def receive = {
@@ -31,10 +31,12 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
     }
     
-    case SetPixel(x,y,c) => {
+//    case SetPixel(x,y,c) => {
+    case SetPixel(pixels) => {
       
+//      accumulator ! SetPixel(x,y,c)
+      accumulator ! SetPixel(pixels)
       waiting -= 1
-      accumulator ! SetPixel(x,y,c)
       if (waiting == 0 ) {
         accumulator ! Finalize  
         println("Finalize")

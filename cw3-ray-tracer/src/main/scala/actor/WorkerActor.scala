@@ -21,7 +21,16 @@ class WorkerActor (configuration : TracerConfiguration) extends Actor {
 
     case WorkUnit(pixels) => {
 
-    	pixels.foreach(pixel => sender ! SetPixel(pixel._1,pixel._2, Color.green))      
+
+//    	pixels.foreach(pixel => sender ! SetPixel(pixel._1,pixel._2, Color.green))      
+        sender ! SetPixel(resolvePixels(pixels))
     }    
   }  
+
+  def resolvePixels(pixels:IndexedSeq[(Int, Int)]):IndexedSeq[(Int, Int, Color)] = {
+
+     	pixels.map { pixel => (pixel._1,pixel._2, trace(pixel._1)) }
+  }
+
+  def trace(value:Int):Color = if (value > configuration.dimensions._1 / 2) Color.red else Color.blue
 }
