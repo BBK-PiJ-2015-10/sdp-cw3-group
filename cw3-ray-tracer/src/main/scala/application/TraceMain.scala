@@ -17,7 +17,7 @@ object TraceMain extends App {
   
   c.workers = 8
   
-  c.workUnits = 800
+  c.workUnits = 400
   
   c.dimensions = (800,600)
   

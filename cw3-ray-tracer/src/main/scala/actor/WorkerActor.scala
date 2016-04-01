@@ -13,30 +13,15 @@ class WorkerActor (configuration : TracerConfiguration) extends Actor {
   
   def receive = {
     
-    case WorkUnit(x1, y1, x2, y2) => {
-     
-//         println(s"Work out value for ${x1}, ${y1} to ${x2}, ${y2}")
-	
+//    case WorkUnit(x1, y1, x2, y2) => {
+//
+//      for (i <- x1 until x2 + 1) {
+//       sender ! SetPixel(i,y1, Color.black)        
+//      }
 
+    case WorkUnit(pixels) => {
 
-      for (i <- x1 until x2 + 1) {
-        
-//       println(s"Work out value for ${i}, ${y1}")
-        sender ! SetPixel(i,y1, Color.black)
-        
-        
-      }
-      
-      //println(s"Work out value for ${x} pixels")
-      
-      
-      
-    }
-    
-    
-  }
-  
- 
-  
-  
+    	pixels.foreach(pixel => sender ! SetPixel(pixel._1,pixel._2, Color.green))      
+    }    
+  }  
 }

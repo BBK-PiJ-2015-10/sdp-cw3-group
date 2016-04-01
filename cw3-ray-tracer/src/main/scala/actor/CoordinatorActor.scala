@@ -64,11 +64,14 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
       .withRouter(RoundRobinPool(configuration.workers)), name = "workerRouter")
 
-    //val noOfPixels = (configuration.dimensions._1 * configuration.dimensions._2) / configuration.workUnits
+//    for (i <- 0 until configuration.dimensions._2 ) workerRouter ! WorkUnit(0, i, configuration.dimensions._1 -1, i)
 
-    //println(s"X-axis range 0 to ${configuration.dimensions._1 -1}, y-axis  ${0} to ${configuration.dimensions._2}")
-    for (i <- 0 until configuration.dimensions._2 ) workerRouter ! WorkUnit(0, i, configuration.dimensions._1 -1, i)
+    val blockSize = Math.ceil(Math.max(configuration.dimensions._1.toDouble * configuration.dimensions._2.toDouble / configuration.workUnits, 1)).toInt
+                                               
 
+    val cartesianPixels = (0 to configuration.dimensions._1 - 1).flatMap(x => (0 to configuration.dimensions._2 - 1).map { y => (x, y) })
+
+    (0 to configuration.workUnits - 1).foreach { x =>  workerRouter ! WorkUnit(cartesianPixels.slice(x * blockSize, x * blockSize + blockSize)) }
 
 
   }
