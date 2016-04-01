@@ -20,6 +20,7 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
   //var waiting = configuration.dimensions._1 * configuration.dimensions._2
   var waiting = configuration.workUnits
 
+  var startTime = System.currentTimeMillis()
 
   def receive = {
 
@@ -39,7 +40,7 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
       waiting -= 1
       if (waiting == 0 ) {
         accumulator ! Finalize  
-        println("Finalize")
+        println(s"Finalize after ${System.currentTimeMillis() - startTime} (ms)")
       }
       
       

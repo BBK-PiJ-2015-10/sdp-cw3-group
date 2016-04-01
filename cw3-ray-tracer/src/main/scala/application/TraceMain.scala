@@ -31,12 +31,10 @@ object TraceMain extends App {
      val system = ActorSystem("RayTracerSystem")
      
      val coordinator = system.actorOf(Props(new CoordinatorActor(configuration)), name = "coordinator")
+
+     println(s"Trace ${c.dimensions._1}x${c.dimensions._2} image with ${c.workers} workers and ${c.workUnits} work units")
     
      coordinator ! Initialize
      
-  }
-  
-  
-  
-  
+  }  
 }
