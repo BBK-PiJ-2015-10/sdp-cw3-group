@@ -66,9 +66,10 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
     //val noOfPixels = (configuration.dimensions._1 * configuration.dimensions._2) / configuration.workUnits
 
-    for (i <- 0 until configuration.dimensions._1) workerRouter ! WorkUnit(0, i, configuration.dimensions._2 -1, i)
+    //println(s"X-axis range 0 to ${configuration.dimensions._1 -1}, y-axis  ${0} to ${configuration.dimensions._2}")
+    for (i <- 0 until configuration.dimensions._2 ) workerRouter ! WorkUnit(0, i, configuration.dimensions._1 -1, i)
 
-    //    println(s"Create ${configuration.workUnits} sub units from ${configuration.dimensions}")
+
 
   }
 

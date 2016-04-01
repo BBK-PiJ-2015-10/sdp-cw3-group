@@ -17,6 +17,7 @@ class ImageAccumulator (configuration: TracerConfiguration) {
   }
   
   def accumulate(x: Int, y: Int, c: Color) = {
+	
     image(x, y) = c
   }
   
