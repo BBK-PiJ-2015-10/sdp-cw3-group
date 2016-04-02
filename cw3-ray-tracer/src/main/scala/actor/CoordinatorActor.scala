@@ -4,7 +4,7 @@ import akka.actor.Actor
 import akka.actor.ActorRef
 import akka.actor.Props
 import akka.actor.actorRef2Scala
-import akka.routing.RoundRobinPool
+import akka.routing._
 import application.Initialize
 import application.SetPixel
 import application.TracerConfiguration
@@ -65,7 +65,7 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     accumulator ! Initialize
 
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
-      .withRouter(RoundRobinPool(configuration.workers)), name = "workerRouter")
+      .withRouter(BalancingPool(configuration.workers)), name = "workerRouter")
 
 //    for (i <- 0 until configuration.dimensions._2 ) workerRouter ! WorkUnit(0, i, configuration.dimensions._1 -1, i)
 

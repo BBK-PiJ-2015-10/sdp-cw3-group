@@ -15,9 +15,9 @@ object TraceMain extends App {
   
   c.scene = FileReader.parse(c.infile)
   
-  c.workers = 8
+  c.workers = Runtime.getRuntime().availableProcessors()
   
-  c.workUnits = 400
+  c.workUnits = 240
   
   c.dimensions = (800,600)
   
