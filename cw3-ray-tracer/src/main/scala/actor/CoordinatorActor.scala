@@ -13,6 +13,11 @@ import application.Finalize
 import application.SetPixel
 import application.WorkUnit
 
+
+import akka.actor.OneForOneStrategy
+import akka.actor.SupervisorStrategy._
+
+
 class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   var accumulator: ActorRef = _
@@ -53,6 +58,7 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
       
     }
     
+    
 
   }
 
@@ -79,4 +85,10 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   }
 
+  
+  override val supervisorStrategy = OneForOneStrategy(loggingEnabled=false) {
+      case _:Exception => Restart
+  }
+  
+  
 }

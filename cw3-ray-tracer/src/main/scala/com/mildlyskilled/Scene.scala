@@ -1,5 +1,6 @@
 package com.mildlyskilled
 
+/*
 object Scene {
 
   import java.io.{FileReader, LineNumberReader}
@@ -40,6 +41,8 @@ object Scene {
   }
 }
 
+*/
+
 //class Scene private(val objects: List[Shape], val lights: List[Light]) {
 
 class Scene (val objects: List[Shape], val lights: List[Light]) {  
@@ -57,6 +60,8 @@ class Scene (val objects: List[Shape], val lights: List[Light]) {
   val angle = 90f // viewing angle
   //val angle = 180f // fisheye
 
+  /*
+  
   def traceImage(width: Int, height: Int) {
 
     val frustum = (.5 * angle * math.Pi / 180).toFloat
@@ -104,6 +109,8 @@ class Scene (val objects: List[Shape], val lights: List[Light]) {
     }
   }
 
+  */
+  
   def shadow(ray: Ray, l: Light): Boolean = {
     val distSquared = (l.loc - ray.orig).normSquared
     intersections(ray).foreach {

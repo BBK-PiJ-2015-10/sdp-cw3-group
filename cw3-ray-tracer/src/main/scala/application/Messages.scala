@@ -16,3 +16,6 @@ case class SetPixel(pixels: IndexedSeq[(Int, Int, Color)]) extends RayTracerMess
 //case class WorkUnit(x1: Int, y1:Int, x2: Int, y2:Int) extends RayTracerMessage
 
 case class WorkUnit(pixels: IndexedSeq[(Int, Int)]) extends RayTracerMessage
+
+
+
