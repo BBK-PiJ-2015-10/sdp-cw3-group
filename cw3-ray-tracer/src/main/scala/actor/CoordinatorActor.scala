@@ -34,9 +34,9 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
       initializeSystem(configuration)
     }
 
-    case SetPixel(pixels) => {
+    case m:SetPixel => {
       
-      accumulator ! _
+      accumulator ! m
       waiting -= 1
       if (waiting == 0 ) {
         accumulator ! Finalize  

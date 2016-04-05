@@ -6,16 +6,13 @@ import com.mildlyskilled._
 import application.SetPixel
 import com.mildlyskilled.Color
 
-
-class PixelWorker (pixels:IndexedSeq[(Int, Int)],configuration : TracerConfiguration, scene: Scene) {
+class PixelWorker (configuration : TracerConfiguration, scene: Scene) {
   
 
   def resolvePixels(pixels:IndexedSeq[(Int, Int)]):IndexedSeq[(Int, Int, Color)] = {
 
      	pixels.map { pixel => (pixel._1,pixel._2, trace(pixel)) }
   }
-
-  def trace(value:Int):Color = if (value > configuration.dimensions._1 / 2) Color.red else Color.blue
 
   def trace(pixel:(Int, Int)):Color = {
 
@@ -45,16 +42,7 @@ class PixelWorker (pixels:IndexedSeq[(Int, Int)],configuration : TracerConfigura
              
           }
         }
-        
-	
-	   
-
+//	println(s"Colour is ${colour}")
 	colour
-}  
-  
-  
-  
-  
-  
-  
+  }  
 }
