@@ -15,13 +15,13 @@ object TraceMain extends App {
   
   c.scene = FileReader.parse(c.infile)
   
-  c.workers = Runtime.getRuntime().availableProcessors()
-  
-  c.workUnits = 240
-  
+  c.workers = Runtime.getRuntime().availableProcessors() - 1
+   
   c.dimensions = (800,600)
   
   c.antiAliasingFactor = 4
+
+  c.workUnits = c.dimensions._1 / c.workers
   
   runRayTracer(c)
   
