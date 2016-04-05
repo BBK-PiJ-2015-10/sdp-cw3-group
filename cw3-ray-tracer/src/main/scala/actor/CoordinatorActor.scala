@@ -21,8 +21,7 @@ import akka.actor.SupervisorStrategy._
 class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   var accumulator: ActorRef = _
-  
-  //var waiting = configuration.dimensions._1 * configuration.dimensions._2
+
   var waiting = configuration.workUnits
 
   var startTime = System.currentTimeMillis()
@@ -32,34 +31,24 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     case Initialize => {
 
       println("Initializing all Actors")
-
       initializeSystem(configuration)
-
     }
-    
-//    case SetPixel(x,y,c) => {
+
     case SetPixel(pixels) => {
       
-//      accumulator ! SetPixel(x,y,c)
-      accumulator ! SetPixel(pixels)
+      accumulator ! _
       waiting -= 1
       if (waiting == 0 ) {
         accumulator ! Finalize  
         println(s"Finalize after ${System.currentTimeMillis() - startTime} (ms)")
-      }
-      
-      
+      }  
     }
-    
-    
+        
     case Finalize => {
-      context stop self
-      context.system.terminate
-      
-    }
-    
-    
 
+      context stop self
+      context.system.terminate      
+    }
   }
 
   def initializeSystem(configuration: TracerConfiguration) = {
@@ -83,13 +72,10 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
    def generateCartesianPixels: IndexedSeq[(Int,Int)] =  {
 	
-	(0 to configuration.dimensions._2 - 1).flatMap(y => (0 to configuration.dimensions._1 - 1).map { x => (x, y) })
+	(0 to configuration.dimensions._1 - 1).flatMap(x => (0 to configuration.dimensions._2 - 1).map { y => (x, y) })
    }
 
-  
   override val supervisorStrategy = OneForOneStrategy(loggingEnabled=false) {
       case _:Exception => Restart
-  }
-  
-  
+  }  
 }
