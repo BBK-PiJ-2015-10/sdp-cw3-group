@@ -21,7 +21,7 @@ object TraceMain extends App {
   
   c.antiAliasingFactor = 4
 
-  c.workUnits = c.dimensions._1 / c.workers
+  c.workUnits = c.dimensions._2 / c.workers
   
   runRayTracer(c)
   

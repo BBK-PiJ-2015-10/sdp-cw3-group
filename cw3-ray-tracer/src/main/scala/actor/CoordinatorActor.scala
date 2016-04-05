@@ -73,17 +73,18 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
       .withRouter(BalancingPool(configuration.workers)), name = "workerRouter")
 
-//    for (i <- 0 until configuration.dimensions._2 ) workerRouter ! WorkUnit(0, i, configuration.dimensions._1 -1, i)
-
     val blockSize = Math.ceil(Math.max(configuration.dimensions._1.toDouble * configuration.dimensions._2.toDouble / configuration.workUnits, 1)).toInt
-                                               
 
-    val cartesianPixels = (0 to configuration.dimensions._1 - 1).flatMap(x => (0 to configuration.dimensions._2 - 1).map { y => (x, y) })
-
+    val cartesianPixels = generateCartesianPixels
+ 
+    // Consistently faster than using cartesianPixels.sliding(blockSize, blockSize).foreach(...)
     (0 to configuration.workUnits - 1).foreach { x =>  workerRouter ! WorkUnit(cartesianPixels.slice(x * blockSize, x * blockSize + blockSize)) }
-
-
   }
+
+   def generateCartesianPixels: IndexedSeq[(Int,Int)] =  {
+	
+	(0 to configuration.dimensions._2 - 1).flatMap(y => (0 to configuration.dimensions._1 - 1).map { x => (x, y) })
+   }
 
   
   override val supervisorStrategy = OneForOneStrategy(loggingEnabled=false) {
