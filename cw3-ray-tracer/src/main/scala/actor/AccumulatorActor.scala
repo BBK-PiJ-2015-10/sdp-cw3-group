@@ -25,10 +25,6 @@ class AccumulatorActor (configuration: TracerConfiguration) extends Actor {
       
     }
     
-//    case SetPixel(x, y, c) => {
-//    
-//      imageAccumulator.accumulate(x, y, c)     
-//    }
     
     case SetPixel(pixels) => {
     
@@ -36,6 +32,35 @@ class AccumulatorActor (configuration: TracerConfiguration) extends Actor {
       
     }
     
-  }  
+  }
+  
+    override def preRestart(reason: Throwable, message: Option[Any]) = {
+
+    super.preRestart(reason, message)
+
+    message match {
+
+      case None => {}
+
+      case Some(_) => {
+
+        message.get match {
+
+          case SetPixel(pixels) => {
+            println(s"Restarting after failure")
+            sender !  imageAccumulator.accumulate(pixels)
+
+          }
+          case _ => {
+            println(s"Unknown message after failure }")
+          }
+        }
+
+      }
+
+    }
+
+  }
+  
   
 }

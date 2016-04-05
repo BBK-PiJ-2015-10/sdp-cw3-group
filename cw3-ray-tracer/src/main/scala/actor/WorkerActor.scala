@@ -20,5 +20,36 @@ class WorkerActor (configuration : TracerConfiguration) extends Actor {
 
         sender ! SetPixel(pixelWorker.resolvePixels(pixels))      
     }    
-  }   
+  }
+  
+   override def preRestart(reason: Throwable, message: Option[Any]) = {
+
+    super.preRestart(reason, message)
+
+    message match {
+
+      case None => {}
+
+      case Some(_) => {
+
+        message.get match {
+
+          case WorkUnit(pixels) => {
+            println(s"Restarting after failure")
+            sender ! SetPixel(pixelWorker.resolvePixels(pixels))
+
+          }
+          case _ => {
+            println(s"Unknown message after failure }")
+          }
+        }
+
+      }
+
+    }
+
+  }
+  
+  
+  
 }

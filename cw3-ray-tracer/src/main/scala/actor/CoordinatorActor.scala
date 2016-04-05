@@ -21,8 +21,8 @@ import akka.actor.SupervisorStrategy._
 class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   var accumulator: ActorRef = _
-
-  var waiting = configuration.workUnits
+  
+  var waiting: Int = _
 
   var startTime = System.currentTimeMillis()
 
@@ -53,6 +53,8 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   def initializeSystem(configuration: TracerConfiguration) = {
 
+    waiting = configuration.workUnits
+    
     accumulator = context.actorOf(Props(new AccumulatorActor(configuration)), name = "accumulatorActor")
 
     println("Create workers")
