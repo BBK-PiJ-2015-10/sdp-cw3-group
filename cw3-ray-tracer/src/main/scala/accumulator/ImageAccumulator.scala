@@ -17,13 +17,10 @@ class ImageAccumulator (configuration: TracerConfiguration) {
   }
   
   def accumulate(x: Int, y: Int, c: Color) = {
-	
     image(x, y) = c
   }
   
   def accumulate(pixels:IndexedSeq[(Int, Int, Color)]) = {
-	
    pixels.foreach(pixel => image(pixel._1, pixel._2) = pixel._3)
-    
   }
 }

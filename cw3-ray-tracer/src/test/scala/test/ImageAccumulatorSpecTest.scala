@@ -68,6 +68,7 @@ class ImageAccumulatorSpecTest extends DefaultHarness {
     Color.fromRGB(imageAccumulator.image.im.getRGB(row+1,col+1)) should be(expectedColor2)
   }
   
+  
 
 
 }
