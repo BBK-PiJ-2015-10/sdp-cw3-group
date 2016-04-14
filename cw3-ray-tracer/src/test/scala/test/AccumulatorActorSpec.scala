@@ -1,4 +1,4 @@
-package com.mildlyskilled.test
+package test
 
 import akka.testkit.{TestActorRef}
 import akka.actor.{Props, Actor}
@@ -13,7 +13,7 @@ import actor.AccumulatorActor
 
 
 
-class AccumulatorActorSpec  extends TestKit(ActorSystem("test-system"))
+class AccumulatorActorSpec extends TestKit(ActorSystem("test-system"))
                   with FlatSpecLike
                   with BeforeAndAfterAll
                   with MustMatchers {
@@ -29,14 +29,8 @@ class AccumulatorActorSpec  extends TestKit(ActorSystem("test-system"))
      c.dimensions = (800,600)
   }
   
-  
-  //it should "have a null image before initialization" in {
-    //imageAccumulator.image should be (null)
-  //}
-  
-  
-  "This ......" should "say something here" in {
-    
+  "This xxx" should "say something here" in {
+      
     val c = TracerConfiguration()
     c.dimensions = (800,600)   
     
@@ -44,24 +38,10 @@ class AccumulatorActorSpec  extends TestKit(ActorSystem("test-system"))
     
     var accumulator = system.actorOf(Props(new AccumulatorActor(c)))
     
+    accumulator ! Initialize
     
-    //accumulato
+    //accumulator.
     
-    println(accumulator.getClass)
-    //sender.send(accumulator,Initialize)
-    
-    
-  
   }
   
-  
-  
- 
-  
-  
-  
-  
-  
 }
-
-

@@ -30,12 +30,19 @@ class BlockPixelDistributorSpec extends DefaultHarness {
     numOfPixels should be (cols * rows)
   }
 
-    it should s"return unique pixels" in {
+  it should s"return unique pixels" in {
     val numOfBlocks = 9
     val pixels = RowPixelSequencer.sequence(rows, cols)
     val blocks = BlockPixelDistributor.distribute(numOfBlocks, pixels)
     blocks.flatten.distinct.size should be (cols * rows)
   }
+    
+  it should s"return same pixels" in {
+    val numOfBlocks = 9
+    val pixels = RowPixelSequencer.sequence(rows, cols)
+    val blocks = BlockPixelDistributor.distribute(numOfBlocks, pixels)
+    blocks.flatten.intersect(pixels).size should be (cols * rows)
+  }   
   
   
 
