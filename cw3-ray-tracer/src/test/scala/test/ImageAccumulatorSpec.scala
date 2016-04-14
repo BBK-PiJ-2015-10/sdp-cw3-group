@@ -50,6 +50,13 @@ class ImageAccumulatorSpec extends DefaultHarness {
      Color.fromRGB(imageAccumulator.image.im.getRGB(1, 1))should not be (Color.blue)
   }
   
+  it should "this is an experiment" in {
+    imageAccumulator.initialize()
+    val d = scala.collection.immutable.Vector((0,0, Color.black))
+    imageAccumulator.accumulate(d)
+    Color.fromRGB(imageAccumulator.image.im.getRGB(1, 1))should be (Color.black)
+    
+  }
 
   
 
