@@ -11,7 +11,7 @@ import application.TracerConfiguration
 import application.WorkUnit
 import application.Finalize
 import application.SetPixel
-import application.WorkUnit
+import application._
 
 
 import akka.actor.OneForOneStrategy
@@ -64,19 +64,17 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
       .withRouter(BalancingPool(configuration.workers)), name = "workerRouter")
 
-    val blockSize = Math.ceil(Math.max(configuration.dimensions._1.toDouble * configuration.dimensions._2.toDouble / configuration.workUnits, 1)).toInt
+     // Create a Vector of all the pixel locations
+    val cartesianPixels = RowPixelSequencer.sequence(configuration.dimensions._1, configuration.dimensions._2)
 
-    val cartesianPixels = generateCartesianPixels
- 
-    // Consistently faster than using cartesianPixels.sliding(blockSize, blockSize).foreach(...)
-    (0 to configuration.workUnits - 1).foreach { x =>  workerRouter ! WorkUnit(cartesianPixels.slice(x * blockSize, x * blockSize + blockSize)) }
+    // Split the vector into work units
+    val pixelMap = NormalPixelDistributor.distribute(configuration.workUnits, cartesianPixels).sortBy(x => (x.size))
+
+    // Allocate each work unit to a worker
+    pixelMap.foreach(pixels => workerRouter ! WorkUnit(pixels))
   }
 
-   def generateCartesianPixels: IndexedSeq[(Int,Int)] =  {
-	
-	(0 to configuration.dimensions._1 - 1).flatMap(x => (0 to configuration.dimensions._2 - 1).map { y => (x, y) })
-   }
-
+   
   override val supervisorStrategy = OneForOneStrategy(loggingEnabled=false) {
       case _:Exception => Restart
   }  
