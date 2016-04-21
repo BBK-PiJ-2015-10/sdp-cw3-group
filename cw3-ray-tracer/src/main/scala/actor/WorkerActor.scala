@@ -1,11 +1,8 @@
 package actor
 
 import akka.actor.Actor
-import application.WorkUnit
-import application.TracerConfiguration
+import application.{SetPixel, TracerConfiguration, WorkUnit}
 import com.mildlyskilled._
-import application.SetPixel
-import com.mildlyskilled.Color
 import worker.PixelWorker
 
 class WorkerActor (configuration : TracerConfiguration) extends Actor {

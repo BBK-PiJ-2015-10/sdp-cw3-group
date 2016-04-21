@@ -53,13 +53,14 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
   def initializeSystem(configuration: TracerConfiguration) = {
 
+    //keeping track of how many work units
     waiting = configuration.workUnits
-    
+
+
     accumulator = context.actorOf(Props(new AccumulatorActor(configuration)), name = "accumulatorActor")
 
-    println("Create workers")
-    
     accumulator ! Initialize
+    println("Create workers")
 
     val workerRouter = context.actorOf(Props(classOf[WorkerActor], configuration)
       .withRouter(BalancingPool(configuration.workers)), name = "workerRouter")
