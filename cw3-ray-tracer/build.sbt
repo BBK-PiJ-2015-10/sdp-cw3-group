@@ -11,5 +11,7 @@ resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
-  "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
+  "org.apache.commons" % "commons-math3" % "3.0"
 )
+

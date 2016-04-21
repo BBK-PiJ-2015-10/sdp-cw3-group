@@ -30,7 +30,7 @@ class CounterSpec extends TestKit(ActorSystem("sample-system"))
     
     val state = sender.expectMsgType[Int]
     
-    state must equal (1)
+    state must equal (2)
     
     
   }
