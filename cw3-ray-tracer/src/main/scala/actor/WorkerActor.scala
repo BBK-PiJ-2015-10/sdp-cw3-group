@@ -8,12 +8,21 @@ import application.SetPixel
 import com.mildlyskilled.Color
 import worker.PixelWorker
 
+/**
+  * Resolves a set of pixels based on a scene.
+  */
 class WorkerActor (configuration : TracerConfiguration) extends Actor {
   
+  // scene field based on configuration scene objects and lights.
   private val scene = new Scene((configuration.scene.objects, configuration.scene.lights))
 
+  // pixel worker to handle pixel resolution task. 
   private var pixelWorker = new PixelWorker(configuration,scene)
   
+  /**
+    * Handles the following messages:
+    * - WorkUnit: Resolves the color for a set of pixels.
+    */  
   def receive = {
     
     case WorkUnit(pixels) => {
@@ -22,6 +31,9 @@ class WorkerActor (configuration : TracerConfiguration) extends Actor {
     }    
   }
   
+   /**
+     * In case of actor failure redo any fail messages.
+     */ 
    override def preRestart(reason: Throwable, message: Option[Any]) = {
 
     super.preRestart(reason, message)

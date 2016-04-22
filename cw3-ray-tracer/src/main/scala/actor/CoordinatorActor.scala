@@ -22,12 +22,21 @@ import akka.actor.SupervisorStrategy._
   */
 class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
+  // Reference to accumulator actor.
   private var accumulator: ActorRef = _
    
+  // Keeps track of messages.
   private var waiting: Int = _
 
+  // For logging purposes.
   private var startTime = System.currentTimeMillis()
 
+  /**
+    * Handles the following messages:
+    * - Initialize: Generates actors and start work distribution.
+    * - SetPixel: Passes SetPixel to accumulator and updates waiting counter.
+    * - Finalize: Shut down all actors and shut down system.
+    */
   def receive = {
 
     case Initialize => {
@@ -53,6 +62,10 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     }
   }
 
+  /**
+    * Creates accumulator actor and set of worker actors, generates a set of pixel coordinates
+    * which are distributed among the worker actors.
+    */
   def initializeSystem(configuration: TracerConfiguration) = {
 
     waiting = configuration.workUnits
@@ -76,7 +89,9 @@ class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
     pixelMap.foreach(pixels => workerRouter ! WorkUnit(pixels))
   }
 
-   
+  /**
+    * Restarts actors on failure.
+    */
   override val supervisorStrategy = OneForOneStrategy(loggingEnabled=false) {
       case _:Exception => Restart
   }  
