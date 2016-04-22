@@ -15,13 +15,11 @@ class ImageAccumulator (configuration: TracerConfiguration) {
   def finish () = {
     image.print(configuration.outfile) 
   }
-
-  //"paints one pixel, we're mostly not using this anymore
+  
   def accumulate(x: Int, y: Int, c: Color) = {
     image(x, y) = c
   }
-
-  //"paints" a group of pixels
+  
   def accumulate(pixels:IndexedSeq[(Int, Int, Color)]) = {
    pixels.foreach(pixel => image(pixel._1, pixel._2) = pixel._3)
   }
