@@ -1,0 +1,7 @@
+Ray tracer.
+
+The ray tracer may be configured by changing values of application.TracerConfiguration which are set in application.TraceMain. It is set to run 2 fewer workers than available processors and divides the image into 10n units of work where n is the number of workers.
+The best performance so far has been around 1.5s on an i5 4-processor laptop for an 800x600 pixel image.
+
+The image can be split into units of work in three ways: contiguous blocks, evenly distributed ranges and units of various sizes that are normally distributed. The implementations of these methods can be found in application.PixelDistributor and usage is in actor.CoordinatorActor.
+
