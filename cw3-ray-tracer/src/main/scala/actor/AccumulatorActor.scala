@@ -5,10 +5,22 @@ import akka.actor.Actor
 import application._
 import accumulator.ImageAccumulator
 
+/**
+  * Handles the messages from the WorkerActor and updates the imageAccumulator
+  * with their content.
+  */
 class AccumulatorActor (configuration: TracerConfiguration) extends Actor {
   
-  var imageAccumulator = new ImageAccumulator(configuration)
+ 
+   //ImageAccumulator to carry out the image functions.
+  private var imageAccumulator = new ImageAccumulator(configuration)
   
+  /**
+    * Handles the following messages:
+    * - Initialize: generates a new image.
+    * - Finalize: output images.
+    * - SetPixels: updates image coordinates from a supplied set of pixels. 
+    */
   def receive = {
     
     case Initialize => {
@@ -34,6 +46,9 @@ class AccumulatorActor (configuration: TracerConfiguration) extends Actor {
     
   }
   
+  /**
+    * In case of actor failure redo any fail messages.
+    */ 
     override def preRestart(reason: Throwable, message: Option[Any]) = {
 
     super.preRestart(reason, message)

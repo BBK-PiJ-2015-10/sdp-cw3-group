@@ -17,14 +17,16 @@ import application._
 import akka.actor.OneForOneStrategy
 import akka.actor.SupervisorStrategy._
 
-
+/**
+  * Creates the actors and coordinates the messages between them.
+  */
 class CoordinatorActor(configuration: TracerConfiguration) extends Actor {
 
-  var accumulator: ActorRef = _
-  
-  var waiting: Int = _
+  private var accumulator: ActorRef = _
+   
+  private var waiting: Int = _
 
-  var startTime = System.currentTimeMillis()
+  private var startTime = System.currentTimeMillis()
 
   def receive = {
 

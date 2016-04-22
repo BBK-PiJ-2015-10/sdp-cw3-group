@@ -10,9 +10,9 @@ import worker.PixelWorker
 
 class WorkerActor (configuration : TracerConfiguration) extends Actor {
   
-  val scene = new Scene((configuration.scene.objects, configuration.scene.lights))
+  private val scene = new Scene((configuration.scene.objects, configuration.scene.lights))
 
-  var pixelWorker = new PixelWorker(configuration,scene)
+  private var pixelWorker = new PixelWorker(configuration,scene)
   
   def receive = {
     
